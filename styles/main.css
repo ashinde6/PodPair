@@ -3,7 +3,42 @@ body {
     background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
 }
 
+/* add margin to all elements */
+* {
+    margin-bottom: 8px;
+}
+
+/* style sections, header, and footer to be containers */
+.container {
+    width: 100vw;
+    margin: 10px;
+    padding: 10px;
+}
+
+/* add padding to all sections */
+section {
+    width: 70%;
+    padding: 20px;
+    border: solid chocolate;
+    border-width: 4px;
+    border-radius: 12px;
+}
+
+/* make copyright float left */
+.copyright {
+    float: left;
+}
+
+/* Adjust feel of footer */
+.primary-footer{
+    padding: 10px 30px;
+    border: solid chocolate;
+    border-width: 4px;
+    border-radius: 12px;
+}
+
 img {
+    width: 90%;
     max-width: 800px;
     max-height: 600px;
 }
