@@ -73,6 +73,10 @@ section.container section {
 }
 
 @media screen and (max-width: 500px) {
+    [class*="col-"] {
+        width: 100%;
+    }
+    
     nav.navbar {
         text-align: center;
     }
