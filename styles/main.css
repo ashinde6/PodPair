@@ -10,9 +10,9 @@ body {
 
 /* style sections, header, and footer to be containers */
 .container {
-    width: 100vw;
-    margin: 10px;
-    padding: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 /* add padding to all sections */
@@ -61,4 +61,43 @@ img {
     display: inline-block;
     margin-left:  10px;
     margin-right: 10px;
+}
+
+section.container {
+    text-align: justify;
+    margin-bottom: 20px;
+}
+
+section.container section {
+    border: solid rgb(158, 158, 158);
+}
+
+@media screen and (max-width: 500px) {
+    nav.navbar {
+        text-align: center;
+    }
+
+    nav.navbar ul {
+        display: block;
+        text-align: center;
+    }
+
+    nav.navbar li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    section.container {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
 }
