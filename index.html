@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="styles/main.css">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,39 +17,192 @@
         <meta property="og:description" content="Share your best climbable formations and discover others around the world!">
         <meta property="og:site_name" content="Climb-able">
         
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+        
         <title>Climb-able: Your Next Adventure</title>
     </head>  
 
     <body>
+        
 
-        <header class="container">
-            <nav class="navbar">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="templates/map.html">Global map</a></li>
-                    <li><a href="templates/members.html">Members</a></li>
-                    <li><a href="templates/aboutUs.html">About Us</a></li>
-                    <li><a href="templates/contact.html">Contact</a></li>
-                </ul>
-            </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main Navigation Bar" style="padding-bottom: 0;">
+            <div class="container-xl d-flex align-items-center">
+                <a class="navbar-brand align-self-start" href="#">Climb-able</a>
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsTop"
+                    aria-controls="navbarsTop" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
     
-            <h1>Climb-able</h1>
-            <h2>Find your next outdoor adventure</h2>
-        </header>
+                <div class="navbar-collapse collapse" id="navbarsTop">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="templates/map.html">Global Map</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="templates/members.html">Members</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="templates/aboutUs.html">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="templates/contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- <div class="container">
+            <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+                <div class="col-lg-6 px-0">
+                  <h1 class="display-4 fst-italic">Title of a longer featured blog post</h1>
+                  <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
+                  <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue reading...</a></p>
+                </div>
+              </div>
+        </div> -->
 
-        <section class="container">
-            <h2>The best tool for climbers. Share your local climbable formations and discover others around the world!</h2>
-            <p>We are a team of outdoors enthusiasts with a mission to demystify rock climbing once and for all. Climb-able is a central
-                hub for climbing enthusiasts all over the world to share their geographic knowledge and fill the global map of all the possible 
-                adventures nature provides us. 
-            </p>
-            <p>To find climbable formations around you, simply navigate to our "Global map" on our navigation bar. To learn more about
-                the users keeping Climb-able a great platform, head to our "Members" page. </p>
-            <img src="images/climber.jpeg" alt="A man climbing a sea-side mountain">
-        </section>
+        <main>
+            <div class="d-flex align-items-stretch p-0">
+                <div class="row">
+                    <div class="col-md-6 d-flex align-items-stretch">
+                        <div class="card border-0 mb-0" style="margin-bottom: 0;">
+                            <div class="card-body">
+                                <h5 class="card-title fs-4" style="text-align: center; margin: 40px;">The best tool for climbers. </h5>
+                                <h6 style="margin-bottom: 50px; text-align: center;">Share your local climbable formations and discover others around the world!</h6>
+                                <p class="card-text fs-6" style="margin: 40px;">We are a team of outdoors enthusiasts with a mission to demystify rock climbing once and for all. Climb-able is a central
+                                    hub for climbing enthusiasts all over the world to share their geographic knowledge and fill the global map of all the possible 
+                                    adventures nature provides us. 
+                                </p>
+                                <p style="margin: 40px">To find climbable formations around you, simply navigate to our "Global map" on our navigation bar. To learn more about
+                                    the users keeping Climb-able a great platform, head to our "Members" page. </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-stretch">
+                        <div id="myCarousel" class="carousel slide mb-6 pointer-event mx-auto mb-0" data-bs-ride="carousel" style="width: 100%; margin-bottom: 0;">
+                            <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
+                            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+                            </div>
+                            <div class="carousel-inner" style="max-height: 500px;">
+                                <div class="carousel-item active">
+                                    <img src="images/carousal-1.jpg" class="d-block w-100" >
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="images/carousal-2.jpg" class="d-block w-100">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="images/carousal-3.jpg" class="d-block w-100">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">السابق</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">التالي</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pricing-header p-3 pb-md-4 mx-auto text-center" style="background-color: rgb(191, 191, 191);">
+                <h1 class="display-4 fw-normal text-body-emphasis" style="padding: 40px;">Start Your Next Climb Today</h1>
+                
+              </div>
+            
 
-        <section class = "container flex-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card" style="width: 30rem;">
+                            <img src="images/team.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Join The Team!</h5>
+                                <p class="card-text">Climb to New Heights with Us! Join our dynamic team at Climb-able, where passion meets adventure. As a team member, you'll contribute to shaping unforgettable experiences for fellow climbers worldwide. Embrace challenges, foster camaraderie, and be a key player in our ascent to success.</p>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Apply Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="accordion accordion-flush" id="accordionFlushExample" style="max-width: 600px;">
+                            <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    Explore Climb-able formations in your area
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <h3><a href="templates/map.html">Explore Climb-able formations in your area</a></h3>
+                                    <p>To search for local formations -or add your own discoveries- head to our "Global map" page through the navigation bar or click the link above.</p>
+                                    <img src="images/map.jpg" alt = "A globe with pins">
+                                </div>
+                            </div>
+                            </div>
+                            <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    Meet our members
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <p>Climb-able is built by climbers for climbers. Our project is kept alive by thousands of climbing enthusiasts around
+                                        the world who log their local discoveries to our global map. To learn more about the users keeping Climb-able a great platform, 
+                                        head to our "Members" page or click on the link above.
+                                    </p>
+                                    <img src="images/members.jpg" alt = "A group of rock climbers">
+                                </div>
+                            </div>
+                            </div>
+                            <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                    Still confused?
+                                </button>
+                            </h2>
+                            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <p>If you have any questions about us or our operations, feel free to leave us an email. We'll attempt to get back to you
+                                        within 2 business days. To contact us, simply head to our "Contact" page on our header or click the link above.
+                                    </p>
+                                    <img src="images/questions.png" alt = "A puzzled woman with floating question marks around her head">
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Join the Climb-able Team!</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <p style="margin: 20px">Please provide your email and we will provide you with the information to get started with the application.</p>
+        <input placeholder="Enter Your Email..." style="max-width: 400px; margin: 20px;">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Enter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+        <!-- <section class = "container flex-container">
             <h2>Information Map</h2>
             <section>
                 <h3><a href="templates/map.html">Explore Climb-able formations in your area</a></h3>
@@ -72,8 +226,8 @@
                 </p>
                 <img src="images/questions.png" alt = "A puzzled woman with floating question marks around her head">
             </section>
-        </section>
-        <footer class = "primary-footer">
+        </section> -->
+        <!-- <footer class = "primary-footer">
             <small class="copyright">Climb-able did not own or produce any of the images used on this page. All rights to the images used are 
                 upheld to their original owners. 
             </small>
@@ -86,7 +240,37 @@
                   <li><a href="templates/contact.html">Contact</a></li>
                 </ul>
             </nav>
-        </footer>
+        </footer> -->
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <strong class="me-auto">Bootstrap</strong>
+              <small>11 mins ago</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Hello, world! This is a toast message.
+            </div>
+          </div>
+
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top" style="background-color:white; margin-bottom: 0;">
+            <p class="col-md-4 mb-0 text-muted" style="margin-left: 30px;">© Climb-able</p>
+            <ul class="nav col-md-4 justify-content-end align-self-start" style="margin-right: 30px;">
+              <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Global Map</a></li>
+              <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Members</a></li>
+              <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About Us</a></li>
+              <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Contact</a></li>
+            </ul>
+          </footer>
+          <script>
+              const emailInput = document.querySelector('#exampleModal input');
+              const enterButton = document.querySelector('#exampleModal button.btn-primary');
+      
+              emailInput.addEventListener('keyup', function(event) {
+                  if (event.key === 'Enter') {
+                      enterButton.click();
+                  }
+              });
+          </script>
     </body>
 
 </html>
