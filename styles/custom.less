@@ -1,0 +1,31 @@
+/* custom.less */
+
+// Define a variable
+@primary-color: #ff5733;
+
+// Define a mixin
+.border-radius(@radius: 5px) {
+    border-radius: @radius;
+}
+
+// Use the variable and mixin in rules
+body {
+    background-color: lighten(@primary-color, 20%);
+}
+
+.custom-container {
+    color: darken(@primary-color, 10%);
+    .border-radius(10px); // Using the mixin
+}
+
+// Nested selectors
+.navbar {
+    background-color: @primary-color;
+
+    a {
+        color: #fff;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
