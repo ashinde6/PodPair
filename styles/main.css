@@ -54,15 +54,24 @@ img {
 }
 
 .navbar ul {
-    width: 100%;
     list-style: none;
-    text-align: left;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar ul li {
     display: inline-block;
     margin-left:  10px;
     margin-right: 10px;
+}
+
+.navbar .navbar-collapse {
+    justify-content: flex-end;
+}
+
+.navbar-nav .nav-link svg {
+    margin-top: 15px;
+    margin-bottom: 0 auto;
 }
 
 section.container {
@@ -72,6 +81,36 @@ section.container {
 
 section.container section {
     border: solid rgb(158, 158, 158);
+}
+
+.card {
+    background-color: #0D3B66;
+    color: white;
+}
+
+.card .card-img-top {
+    box-shadow: none;
+}
+
+.card .card-title {
+    font-family: 'Katibeh', serif;
+    font-size: xx-large;
+}
+
+.card .card-text {
+    font-family: 'Inter', sans-serif;
+}
+
+.card .card-title .badge-unpaid {
+    font-family: 'Inter', sans-serif;
+    font-size: small;
+    background-color: #DD7D47;
+}
+
+.card .card-title .badge-paid {
+    font-family: 'Inter', sans-serif;
+    font-size: small;
+    background-color: #47DD95;
 }
 
 @media screen and (max-width: 500px) {
