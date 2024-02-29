@@ -9,10 +9,28 @@ body {
 }
 
 /* style sections, header, and footer to be containers */
+
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 80%;
+    margin: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+}
+
+/* Apply styling to the rows */
+.row {
+    display: flex;
+    align-items: center;
+}
+
+/* Apply styling to the columns */
+.column {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px;
 }
 
 /* add padding to all sections */
@@ -111,6 +129,26 @@ section.container section {
     font-family: 'Inter', sans-serif;
     font-size: small;
     background-color: #47DD95;
+}
+
+.profile-picture {
+    width: 250px; /* Adjust the width as needed */
+    height: 220px; /* Adjust the height as needed */
+    border-radius: 50%; /* Create a circular shape for the picture */
+    margin-right: 10px; /* Add some spacing between the picture and the name */
+    box-shadow: none;
+}
+
+.badges {
+    display: flex;
+}
+
+.badges .badge-info {
+    background-color: #7baee0; /* Example background color, adjust as needed */
+    color: #fff; /* Example text color, adjust as needed */
+    padding: 5px 10px;
+    margin-right: 5px; /* Add some spacing between badges */
+    border-radius: 5px;
 }
 
 @media screen and (max-width: 500px) {

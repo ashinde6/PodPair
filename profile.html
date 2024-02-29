@@ -17,12 +17,12 @@
         <meta name="description" content="Landing page for Climb-able">
         <meta name="keywords" content="athletics, rock climbing, extreme sports, mountains, hiking, outdoors">        
 
-        <meta property="og:title" content="Climb-able: Find your next adventure">
+        <meta property="og:title" content="PodPair">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://cs4640.cs.virginia.edu/mag2sqv/hw2/">
         <meta property="og:image" content="https://i.imgur.com/kIcrJfZ.jpeg">
         <meta property="og:description" content="Share your best climbable formations and discover others around the world!">
-        <meta property="og:site_name" content="Climb-able">
+        <meta property="og:site_name" content="PodPair">
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="..." crossorigin="anonymous">
 
@@ -77,7 +77,6 @@
         </nav>
 
         <main>
-            <h1 class="d-flex justify-content-center align-items-center" style="margin: 40px; font-family: 'Katibeh', serif; font-size: xxx-large; color: #0D3B66;">Find Your Next Podcast Guest</h1>
             <div class="d-flex justify-content-center align-items-center" style="margin: 40px">
                 <div class="input-group rounded" style="width: 50%;">
                     <div class="input-group">
@@ -87,101 +86,37 @@
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                             </svg>
                         </button>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16" style="margin-top: 4px;">
-                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
-                          </svg>
                     </div>
                 </div>
             </div>
 
             <div class="container">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <!-- Card 1 -->
-                    <div class="col">
-                        <div class="card card-home">
-                            <img src="images/person1.png" class="card-img-top" alt="Card 1 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Ava Davis <span class="badge badge-success badge-unpaid">Unpaid</span></h5>
-                                <p class="card-text">Some description for Card 1.</p>
-                            </div>
-                        </div>
+                <!-- First Row with no columns -->
+                <div class="row">
+                    <div class="column" style="max-width: 300px;">
+                        <img src="images/person1.png" alt="User Profile" class="profile-picture">
                     </div>
-        
-                    <!-- Card 2 -->
-                    <div class="col">
-                        <div class="card">
-                            <img src="images/person2.png" class="card-img-top" alt="Card 2 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Jayden Johnson <span class="badge badge-success badge-paid">Paid</span></h5>
-                                <p class="card-text">Some description for Card 2.</p>
-                            </div>
+                    <div class="column">
+                        <p style="font-family: 'Katibeh', serif; font-size: 40px;">Ava Davis</p>
+                        <div class="badges">
+                            <span class="badge-info">Health</span>
+                            <span class="badge-info">Healthy Eating</span>
+                            <span class="badge-info">Exercise</span>
                         </div>
+                        <button type="button" class="btn btn-secondary" style="margin-top: 60px">Send Request</button>
                     </div>
-        
-                    <!-- Card 3 -->
-                    <div class="col">
-                        <div class="card">
-                            <img src="images/person3.png" class="card-img-top" alt="Card 3 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Ethan Williams <span class="badge badge-success badge-unpaid">Unpaid</span></h5>
-                                <p class="card-text">Some description for Card 3.</p>
-                            </div>
-                        </div>
+                </div>
+            </div>
+            <div class="container">
+                <!-- Second Row with two columns -->
+                <div class="row">
+                    <div class="column">
+                        <!-- Content for the first column -->
+                        <p>Column 1 Content</p>
                     </div>
-                    <!-- Add more cards as needed -->
-                    <div class="col">
-                        <div class="card">
-                            <img src="images/person4.png" class="card-img-top" alt="Card 3 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Emily Johnson <span class="badge badge-secondary badge-paid">Paid</span></h5>
-                                <p class="card-text">Some description for Card 3.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="images/person5.png" class="card-img-top" alt="Card 3 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Olivia Martinez <span class="badge badge-secondary badge-paid">Paid</span></h5>
-                                <p class="card-text">Some description for Card 3.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="images/person6.png" class="card-img-top" alt="Card 3 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Liam Anderson <span class="badge badge-secondary badge-unpaid">Unpaid</span></h5>
-                                <p class="card-text">Some description for Card 3.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="images/person7.png" class="card-img-top" alt="Card 3 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Noah Taylor <span class="badge badge-secondary badge-unpaid">Unpaid</span></h5>
-                                <p class="card-text">Some description for Card 3.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="images/person8.png" class="card-img-top" alt="Card 3 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Asmita Patel <span class="badge badge-secondary badge-unpaid">Unpaid</span></h5>
-                                <p class="card-text">Some description for Card 3.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <img src="images/person9.png" class="card-img-top" alt="Card 3 Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Mason Mitchell <span class="badge badge-secondary badge-paid">Paid</span></h5>
-                                <p class="card-text">Some description for Card 3.</p>
-                            </div>
-                        </div>
+                    <div class="column">
+                        <!-- Content for the second column -->
+                        <p>Column 2 Content</p>
                     </div>
                 </div>
             </div>
