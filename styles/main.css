@@ -147,10 +147,10 @@ section.container section {
 }
 
 .profile-picture {
-    width: 250px; /* Adjust the width as needed */
-    height: 220px; /* Adjust the height as needed */
-    border-radius: 50%; /* Create a circular shape for the picture */
-    margin-right: 10px; /* Add some spacing between the picture and the name */
+    width: 250px;
+    height: 220px;
+    border-radius: 50%;
+    margin-right: 10px;
     box-shadow: none;
 }
 
@@ -159,10 +159,10 @@ section.container section {
 }
 
 .badges .badge-info {
-    background-color: #7baee0; /* Example background color, adjust as needed */
-    color: #fff; /* Example text color, adjust as needed */
+    background-color: #7baee0; 
+    color: #fff; 
     padding: 5px 10px;
-    margin-right: 5px; /* Add some spacing between badges */
+    margin-right: 5px;
     border-radius: 5px;
 }
 
@@ -172,10 +172,10 @@ section.container section {
 }
 
 .featured-image {
-    width: 80px; /* Adjust the size as needed */
-    height: 80px; /* Adjust the size as needed */
-    border-radius: 5px; /* Optional: Add rounded corners */
-    margin-right: 10px; /* Add some spacing between the image and text */
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    margin-right: 10px;
     box-shadow: none;
 }
 
