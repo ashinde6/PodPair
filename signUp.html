@@ -1,0 +1,176 @@
+<!-- Bootstrap Elements:
+    - Navbar
+    - Modal
+    - Card
+    - Carousal
+    - Accordian
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <meta name="author" content="Mohamed Gadelrab, Anushka Shinde">
+        <meta name="description" content="Landing page for Climb-able">
+        <meta name="keywords" content="athletics, rock climbing, extreme sports, mountains, hiking, outdoors">        
+
+        <meta property="og:title" content="Climb-able: Find your next adventure">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://cs4640.cs.virginia.edu/mag2sqv/hw2/">
+        <meta property="og:image" content="https://i.imgur.com/kIcrJfZ.jpeg">
+        <meta property="og:description" content="Share your best climbable formations and discover others around the world!">
+        <meta property="og:site_name" content="Climb-able">
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="..." crossorigin="anonymous">
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+        <!-- <script src="https://cdn.jsdelivr.net/npm/less@3.15.0/dist/less.min.js"></script>
+        <link rel="stylesheet/less" type="text/css" href="styles/custom.less" /> -->
+
+        <link rel="stylesheet/less" type="text/css" href="styles/custom.less" />
+        <script src="https://cdn.jsdelivr.net/npm/less" ></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Katibeh&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="styles/main.css">
+
+        <title>Climb-able: Your Next Adventure</title>
+        <style>
+            body {
+                background-color: #ffffff;
+            }
+            .signup-form {
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+            .form-check-label {
+                margin-right: 20px;
+            }
+            .btn-custom {
+                background-color: #007bff;
+                color: #ffffff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .btn-custom:hover {
+                background-color: #0056b3;
+            }
+            #guestFields, #hostFields {
+                margin-top: 20px;
+                background-color: #f0f0f0;
+                padding: 15px;
+                border-radius: 5px;
+            }
+            .container mt-5{
+                background-color: transparent;
+                border: none;
+            }
+        </style>
+    </head>  
+
+    <body>
+
+        <main>
+            <div class="container mt-5" style="background-color: transparent; border: none;">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-6">
+                        <div class="signup-form">
+                            <h2 class="text-center">Become a PodPartner</h2>
+                            <form id="signupForm">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" required placeholder="Your name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" required placeholder="Your email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" required placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" class="form-control" id="confirmPassword" required placeholder="Confirm Password">
+                                </div>
+                                <div class="form-group">
+                                    <div>
+                                        <input class="form-check-input" type="radio" name="roleOptions" id="guestOption" value="guest" onclick="toggleFields()">
+                                        <label class="form-check-label" for="guestOption">Guest</label>
+                                    </div>
+                                    <div>
+                                        <input class="form-check-input" type="radio" name="roleOptions" id="hostOption" value="host" onclick="toggleFields()">
+                                        <label class="form-check-label" for="hostOption">Host</label>
+                                    </div>
+                                </div>
+                                <div id="guestFields" style="display:none;">
+                                    <div class="form-group">
+                                        <label for="bio">Short Bio</label>
+                                        <textarea class="form-control" id="bio" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="experience">Podcasts You've Been On Before</label>
+                                        <input type="text" class="form-control" id="experience">
+                                    </div>
+                                </div>
+                                <div id="hostFields" style="display:none;">
+                                    <div class="form-group">
+                                        <label for="podcastDescription">Podcast Description</label>
+                                        <textarea class="form-control" id="podcastDescription" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="podcastLink">Podcast Link</label>
+                                        <input type="url" class="form-control" id="podcastLink">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Would you be willing to pay for guests?</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payOptions" id="payYes" value="yes">
+                                            <label class="form-check-label" for="payYes">Yes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payOptions" id="payNo" value="no">
+                                            <label class="form-check-label" for="payNo">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-custom">Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+            function toggleFields() {
+                document.getElementById('guestFields').style.display = document.getElementById('guestOption').checked ? 'block' : 'none';
+                document.getElementById('hostFields').style.display = document.getElementById('hostOption').checked ? 'block' : 'none';
+            }
+            </script>
+            
+        </main>
+
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top" style="background-color:white; margin-bottom: 0;">
+            <p class="col-md-4 mb-0 text-muted" style="margin-left: 30px;">© PodPair</p>
+            <ul class="nav col-md-4 justify-content-end align-self-start" style="margin-right: 30px;">
+              <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Members</a></li>
+              <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About Us</a></li>
+              <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Contact</a></li>
+            </ul>
+          </footer>
+    </body>
+
+</html>
