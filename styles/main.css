@@ -19,6 +19,10 @@ body {
     margin-bottom: 20px;
 }
 
+.container a {
+    text-decoration: none;
+}
+
 .container-test {
     width: 80%;
     margin: auto;
@@ -119,6 +123,7 @@ section.container section {
 .card {
     background-color: #0D3B66;
     color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card .card-img-top {
