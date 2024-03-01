@@ -142,13 +142,13 @@ section.container section {
 .card .card-title .badge-unpaid {
     font-family: 'Inter', sans-serif;
     font-size: small;
-    background-color: #DD7D47;
+    background-color: #c65311;
 }
 
 .card .card-title .badge-paid {
     font-family: 'Inter', sans-serif;
     font-size: small;
-    background-color: #47DD95;
+    background-color: #008941;
 }
 
 .profile-picture {
@@ -164,7 +164,7 @@ section.container section {
 }
 
 .badges .badge-info {
-    background-color: #7baee0; 
+    background-color: #477aac; 
     color: #fff; 
     padding: 5px 10px;
     margin-right: 5px;
