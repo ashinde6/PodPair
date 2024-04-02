@@ -16,33 +16,33 @@
     }
 
     // Drop tables and sequences (that are created later)
-    $res  = pg_query($dbHandle, "drop sequence if exists question_seq;");
     $res  = pg_query($dbHandle, "drop sequence if exists user_seq;");
-    $res  = pg_query($dbHandle, "drop sequence if exists userquestion_seq;");
-    $res  = pg_query($dbHandle, "drop table if exists questions;");
+    $res  = pg_query($dbHandle, "drop table if exists featured_on;");
     $res  = pg_query($dbHandle, "drop table if exists users;");
+    $res  = pg_query($dbHandle, "drop table if exists tags;");
 
     // Create sequences
-    $res  = pg_query($dbHandle, "create sequence question_seq;");
+    $res  = pg_query($dbHandle, "create sequence featuredOn_seq;");
     $res  = pg_query($dbHandle, "create sequence user_seq;");
-    $res  = pg_query($dbHandle, "create sequence userquestion_seq;");
+    $res  = pg_query($dbHandle, "create sequence tags_seq;");
 
-    // Create tablse
+    // Create tables
     $res  = pg_query($dbHandle, "create table users (
-            name text,
-            email text,
             username text primary key,
+            name text,
+            id  int default nextval('user_seq'),
+            email text,
             password text,
             bio text,
             type text,
     );");
     $res  = pg_query($dbHandle, "create table featured_on (
-            id  int primary key default nextval('user_seq'),
+            id  int primary key default nextval('featuredOn_seq'),
             username text,
             feature text,
     );");
     $res  = pg_query($dbHandle, "create table tags (
-            id  int primary key default nextval('user_seq'),
+            id  int primary key default nextval('tags_seq'),
             username text,
             tag text,
     );");
