@@ -35,6 +35,7 @@
             password text,
             bio text,
             type text,
+            profile_picture text
     );");
     $res  = pg_query($dbHandle, "create table featured_on (
             id  int primary key default nextval('featuredOn_seq'),
@@ -57,3 +58,16 @@
     // foreach ($questions as $q) {
     //         $res = pg_execute($dbHandle, "myinsert", [$q["question"], $q["answer"]]);
     // }
+    
+    $username = 'john_doe';
+    $name = 'John Doe';
+    $email = 'john.doe@example.com';
+    $password = '12345';
+    $bio = 'I am a seasoned fitness expert with a decade of experience. As a certified personal trainer and nutrition coach, I advocate for a balanced approach to fitness, emphasizing functional training, nutrition, and holistic wellness. I am a sought-after speaker and podcast guest, sharing practical insights on workout routines, nutrition, and mindset shifts for sustainable health and fitness success. My passion for empowering individuals to prioritize their health shines through in every discussion, inspiring listeners to adopt healthier lifestyles and unlock their full potential.';
+    $type = 'guest';
+    $profile_picture = '../../images/person3.png'; // This should be the file path or reference to the profile picture
+    
+    $query = "INSERT INTO users (username, name, email, password, bio, type, profile_picture) VALUES ('$username', '$name', '$email', '$password', '$bio', '$type', '$profile_picture')";
+    
+    $res = pg_query($dbHandle, $query);
+    
