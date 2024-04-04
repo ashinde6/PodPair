@@ -56,8 +56,8 @@ class Controller {
             case "home":
                 $this->showHome();
                 break;
-            case "answer":
-                $this->answerQuestion();
+            case "profile":
+                $this->showProfile();
                 break;
             case "login":
                 $this->login();
@@ -166,6 +166,10 @@ class Controller {
     public function logout() {
         session_destroy();
         session_start();
+    }
+
+    public function showProfile() {
+        include('templates/profile.php');
     }
     
     /**

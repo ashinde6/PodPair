@@ -30,7 +30,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Katibeh&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
         
-        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="../styles/main.css">
 
         <title>Podpair</title>
     </head>  
@@ -38,29 +38,37 @@
     <body>
         <nav class="navbar navbar-expand-lg" aria-label="Main Navigation Bar" style="padding-bottom: 0; background-color: #0D3B66;">
             <div class="container-fluid">
-                <a class="navbar-brand align-self-start" href="index.html" style="font-family: 'Katibeh', serif; font-size: 35px; margin-left: 20px;">PodPair</a>
+                <form action="?command=home" method="post">
+                    <button type="submit" style="border: none; background: none; padding: 0;">
+                        <p class="navbar-brand align-self-start" style="font-family: 'Katibeh', serif; font-size: 35px; margin-left: 20px;">PodPair</p>
+                    </button>
+                </form>
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsTop"
                     aria-controls="navbarsTop" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse justify-content-end" id="navbarsTop">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="signUp.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16" aria-label="a door with an inviting arrow">
-                                    <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
-                                    <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
-                                  </svg>
-                            </a>
+                        <li class="nav-item" style="margin-right: 10px">
+                            <form action="?command=logout" method="post">
+                                <button type="submit" style="border: none; background: none; padding: 0;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16" aria-label="a door with an inviting arrow">
+                                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
+                                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                                    </svg>
+                                </button>
+                            </form>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="profile.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" aria-label="a figure of a person's upper body">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                                </svg>
-                            </a>
+                        <li class="nav-item" style="margin-right: 10px">
+                            <form action="?command=profile" method="post">
+                                <button type="submit" style="border: none; background: none; padding: 0;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" aria-label="a figure of a person's upper body">
+                                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                    </svg>
+                                </button> 
+                            </form>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" style="margin-right: 10px">
                             <a class="nav-link" aria-current="page" href="contact.html">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-envelope-at-fill" viewBox="0 0 16 16" aria-label="a mailing box">
                                     <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.5 4.5 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586zM16 9.671V4.697l-5.803 3.546.338.208A4.5 4.5 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671"/>

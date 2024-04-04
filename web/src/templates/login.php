@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-xs-12">
                 <form action="?command=login" method="post">
-                    <div class="mb-3">
+                    <div class="mb-3" style="display: none;">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="fullname">
                     </div>
