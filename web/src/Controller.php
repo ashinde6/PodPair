@@ -169,7 +169,15 @@ class Controller {
     }
 
     public function showProfile() {
-        include('templates/profile.php');
+        if (isset($_POST["user"])) {
+            $username = $_POST["user"];
+            $user = findUser($username);
+            include('templates/profile.php');
+        }
+    }
+
+    public function findUser($username) {
+        
     }
     
     /**

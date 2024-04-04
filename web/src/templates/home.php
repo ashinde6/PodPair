@@ -30,7 +30,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Katibeh&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
         
-        <link rel="stylesheet" href="../styles/main.css">
+        <link rel="stylesheet" href="styles/main.css">
 
         <title>Podpair</title>
     </head>  
@@ -108,6 +108,7 @@
                             ?>
                             <div class="col">
                                 <form action="?command=profile" method="post">
+                                    <input type="hidden" name="user" value="<?=$user['username']?>">
                                     <button type="submit" style="border: none; background: none; padding: 0;">
                                         <div class="card card-home">
                                             <!-- <img src="<?php echo $user['profile_picture']; ?>" class="card-img-top" alt="User Profile Image"> -->
