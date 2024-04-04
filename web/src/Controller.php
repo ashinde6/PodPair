@@ -40,7 +40,7 @@ class Controller {
      */
     public function run() {
         // Get the command
-        $command = "welcome";
+        $command = "home";
         if (isset($this->input["command"]))
             $command = $this->input["command"];
 
@@ -50,11 +50,11 @@ class Controller {
         // got here without going through the welcome page, so we
         // should send them back to the welcome page only.
         if (!isset($_SESSION["name"]) && $command != "login")
-            $command = "welcome";
+            $command = "login";
 
         switch($command) {
-            case "question":
-                $this->showQuestion();
+            case "home":
+                $this->showHome();
                 break;
             case "answer":
                 $this->answerQuestion();
@@ -89,8 +89,7 @@ class Controller {
             !empty($_POST["fullname"]) && !empty($_POST["email"])) {
             $_SESSION["name"] = $_POST["fullname"];
             $_SESSION["email"] = $_POST["email"];
-            $_SESSION["score"] = 0;
-            header("Location: ?command=question");
+            header("Location: ?command=home");
             return;
         }
         $this->errorMessage = "Error logging in - Name and email is required";
@@ -131,7 +130,7 @@ class Controller {
                     $_SESSION["email"] = $_POST["email"];
                     $_SESSION["score"] = 0;
                     // Send user to the appropriate page (question)
-                    header("Location: ?command=question");
+                    header("Location: ?command=home");
                     return;
                 } else {
                     // User was in the database, verify password is correct
@@ -143,7 +142,7 @@ class Controller {
                         $_SESSION["name"] = $res[0]["name"];
                         $_SESSION["email"] = $res[0]["email"];
                         $_SESSION["score"] = $res[0]["score"];
-                        header("Location: ?command=question");
+                        header("Location: ?command=home");
                         return;
                     } else {
                         // Password was incorrect
@@ -172,34 +171,15 @@ class Controller {
     /**
      * Our getQuestion function, now as a method!
      */
-    public function getQuestion($id=null) {
+    public function getUsers($id=null) {
 
         // If $id is not set, then get a random question
         // We wrote this in class.
         if ($id === null) {
-            // Read ONE random question from the database
-            $qn = $this->db->query("select * from questions order by random() limit 1;");
-
-            // The query function calls pg_fetch_all, which returns an **array of arrays**.
-            // That means that if we only have one row in our result, it's an array at
-            // position 0 of the array of arrays.
-            // Note: we should check that $qn here is _not_ false first!
-            return $qn[0];
+            // return all users from the database
+            $users = $this->db->query("select * from users;");
+            return $users;
         }
-        
-        // If an $id **was** passed in, then we should get that specific
-        // question from the database.
-        //
-        // NOTE: We did **not** write this in class, but it is provided/updated
-        // below:
-        if (is_numeric($id)) {
-            $res = $this->db->query("select * from questions where id = $1;", $id);
-            if (empty($res)) {
-                return false;
-            }
-            return $res[0];
-        }
-       
         // Anything else, just return false
         return false;
     }
@@ -209,12 +189,12 @@ class Controller {
      * template PHP file and displays it to the user based on
      * properties of this object and the SESSION information.
      */
-    public function showQuestion($message = "") {
+    public function showHome($message = "") {
         $name = $_SESSION["name"];
         $email = $_SESSION["email"];
-        $score = $_SESSION["score"];
-        $question = $this->getQuestion();
-        include("/opt/src/trivia/templates/question.php");
+        // $score = $_SESSION["score"];
+        $users = $this->getUsers();
+        include("templates/home.php");
     }
 
     /**
@@ -227,7 +207,7 @@ class Controller {
         if (!empty($this->errorMessage)) {
             $message = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        include("/opt/src/templates/login.php");
+        include("templates/login.php");
     }
 
     /**
@@ -257,7 +237,7 @@ class Controller {
             }
         }
 
-        $this->showQuestion($message);
+        $this->showHome($message);
     }
 
 }
