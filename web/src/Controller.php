@@ -179,13 +179,21 @@ class Controller {
 
         // If $id is not set, then get a random question
         // We wrote this in class.
-        if ($id === null) {
-            // return all users from the database
-            $users = $this->db->query("select * from users;");
+        try {
+            // Query to select all users
+            $users = $this->db->query("SELECT * FROM users;");
+            
+            // Check if query was successful
+            if ($users === false) {
+                throw new Exception("Error retrieving users from the database.");
+            }
+    
             return $users;
+        } catch (Exception $e) {
+            // Log the error or handle it appropriately
+            error_log("Error: " . $e->getMessage());
+            return false;
         }
-        // Anything else, just return false
-        return false;
     }
 
     /**

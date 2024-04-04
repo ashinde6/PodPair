@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-xs-12">
                 <h1>Welcome to PodPair!</h1>
-                <p>Please answer the questions below to login</p>
+                <p>Please login to continue</p>
                 </div>
             </div>
             <?=$message?>

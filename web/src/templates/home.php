@@ -107,15 +107,17 @@
                         foreach ($users as $user) {
                             ?>
                             <div class="col">
-                                <a href="profile.html">
-                                    <div class="card card-home">
-                                        <img src="<?php echo $user['profile_picture']; ?>" class="card-img-top" alt="User Profile Image">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><?php echo $user['name']; ?></h5>
-                                            <p class="card-text"><?php echo $user['bio']; ?></p>
+                                <form action="?command=profile" method="post">
+                                    <button type="submit" style="border: none; background: none; padding: 0;">
+                                        <div class="card card-home">
+                                            <!-- <img src="<?php echo $user['profile_picture']; ?>" class="card-img-top" alt="User Profile Image"> -->
+                                            <div class="card-body">
+                                                <h5 class="card-title"><?php echo $user['name']; ?></h5>
+                                                <!-- <p class="card-text"><?php echo $user['bio']; ?></p> -->
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </button>
+                                </form>
                             </div>
                             <?php
                         }
