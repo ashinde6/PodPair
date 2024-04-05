@@ -155,12 +155,12 @@ class Controller {
 
     //direct the user to the login page
     public function showLogin($errorMessages = [], $formInput = [], $passWarning = false){
-        include('templates/login.php');
+        header('Location: ../src/templates/login.php');
     }
 
     //direct the user to the sign up page
     public function showSignup($name = "", $password = "", $msg =""){
-        include('templates/signUp.php');
+        header('Location: ../src/templates/signUp.php');
     }
 
 
@@ -172,7 +172,7 @@ class Controller {
     }
 
     public function showProfile() {
-        include('templates/profile.php');
+        header('Location: ../src/templates/profile.php');
     }
     
     //fetches all users
@@ -197,7 +197,7 @@ class Controller {
     //displays homepage
     public function showHome() {
         $users = $this->getUsers();
-        include("templates/home.php");
+        header('Location: ../src/templates/home.php');
     }
 
 
