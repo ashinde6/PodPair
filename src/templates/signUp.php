@@ -11,10 +11,11 @@
 
 <body>
 
-<?php if ($msg != ""): ?>
+<?php if ($_SESSION['invalid_email'] === true): ?>
         <div class="alert alert-danger" role="alert">
-            <?= htmlspecialchars($msg); ?>
+            Email is invalid
         </div>
+        <?php unset($_SESSION['invalid_email']); ?>
 <?php endif; ?>
 
 <div class="container" style="margin-top: 15px;">
@@ -34,8 +35,6 @@
                         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <!-- Hidden inputs for name and password -->
-                    <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
-                    <input type="hidden" name="passwd" value="<?php echo htmlspecialchars($password); ?>">
                     <button type="submit" class="btn btn-primary">Start</button>
                 </form>
                 </div>

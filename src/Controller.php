@@ -31,7 +31,7 @@ class Controller {
             $command = $this->input["command"];
 
         // If user isn't logged in, direct to login/sign-up page
-        if (!isset($_SESSION["username"]) && ($command != "showLogin" || $command != "login"))
+        if (!isset($_SESSION["username"]) && ($command != "showLogin" && $command != "login"))
             $command = "showLogin";
 
         switch($command) {
@@ -63,69 +63,44 @@ class Controller {
     //new or returning. If the user is new, redirects them  to a sign up page that preserves their previously set username and password and
     //creates a new user instance.
     public function login() {
-        $username = "";
-        $password = "";
-        // array to hold error messages
-        $errorMessages = [];
-
-        // Check if the user has provided a password that adheres to our guidelines
-        if (isset($_POST["passwd"])) {
-            $password = (string)$_POST["passwd"];
-
-            if (strlen($password) <= 5) {
-                $errorMessages[] = "Password must be longer than 5 characters."; //check if password is longer than 5 characters
-            }
-            if (!preg_match('~[0-9]+~', $password)) {
-                $errorMessages[] = "Password must contain at least one number."; //use regex to check if password has at least one number
-            }
-        } else {
-            $errorMessages[] = "Password is required.";
-        }
-
-        // Check if the user has provided a username that adheres to our guidelines
-        if (isset($_POST["name"])) {
-            $name = (string)$_POST["name"];
-        
-            if (strlen($name) <= 3) {
-                $errorMessages[] = "Username must be longer than 3 characters."; //check that username is longer than 3 characters
-            }
-        } else {
-            $errorMessages[] = "Username is required.";
-        }
-
-        if(!empty($errorMessages)){
-            $this -> showLogin($errorMessages, $_POST);
-            return;
+ 
+        if($_POST['errorMessagesExist'] == 1){
+            header("../src/templates/login.php");
+            exit();
         }
 
         //if the user's name and password are syntactically correct, check if their credintials are in our database
 
-        $res = $this->db->query("select * from users where username = $1;", $name);
+        $res = $this->db->query("select * from users where username = $1;", $_POST['name']);
         if (empty($res)) {
             // User not in database, direct them to signup page to input their email
-            $this-> showSignup($name, $password);
-            return;
+            $_SESSION["username"] = $_POST['name'];
+            $_SESSION['password'] = $_POST['name'];
+            $this-> showSignup();
+            exit();
         } 
         
         else {
             //if user is in database, check if password is right.
-            if (password_verify($password, $res[0]["password"])) {
+            if (password_verify($_SESSION['password'], $res[0]["password"])) {
                 // Password was correct, save their information to the
                 // session and redirect them to home page
-                $_SESSION["username"] = $username;
+                $_SESSION["username"] = $_SESSION['username'];
                 $_SESSION["email"] = $res[0]["email"];
                 header("Location: ?command=showHome");
-                return;
+                exit();
             } 
             else {
                 // Password was incorrect. Redirect to login
-                $this -> showLogin([], $_POST, true);
-                return;
+                $_SESSION['passWarning'] = true;
+                include("../src/templates/login.php");
+                exit();
             }
         }
 
         // If something went wrong, show the home page
         $this->showHome();
+        exit();
     }
 
     public function signUp(){
@@ -134,34 +109,35 @@ class Controller {
 
         // Check if the user has provided an email that adheres to our guidelines
         if (!isset($_POST["email"]) || !preg_match($pattern, $_POST["email"])) {
-            $this->showSignup($_POST["name"],$_POST["passwd"],"Your email address is not valid");
-            return;
+            $_SESSION['invalid_email'] = true;
+            $this->showSignup();
+            exit();
         }
         
         //if the email is correct, create an entry for the user in the database and direct to homepage.
         
-        $this->db->query("insert into users (username, email, password) values ($1, $2, $3);",
-        $_POST["name"], $_POST["email"],
-        // hashed password
-        password_hash($_POST["passwd"], PASSWORD_DEFAULT), 0);
+        $this->db->query(
+            "INSERT INTO users (username, email, password) VALUES ($1, $2, $3);",
+            $_SESSION["username"], 
+            $_POST["email"],
+            // Hashed password
+            password_hash($_SESSION["password"], PASSWORD_DEFAULT)
+        );        
 
-        $_SESSION["username"] = $_POST["name"];
         $_SESSION["email"] = $_POST["email"];
 
         // Send user to the homepage
-        $this->logout();
-        exit();
         header("Location: ?command=showHome");
-        return;
+        exit();
     }
 
     //direct the user to the login page
-    public function showLogin($errorMessages = [], $formInput = [], $passWarning = false){
-        include_once('../src/templates/login.php');
+    public function showLogin(){
+        header('Location: ../src/templates/login.php');
     }
 
     //direct the user to the sign up page
-    public function showSignup($name = "", $password = "", $msg =""){
+    public function showSignup(){
         header('Location: ../src/templates/signUp.php');
     }
 
@@ -171,10 +147,12 @@ class Controller {
     public function logout() {
         session_destroy();
         session_start();
+        exit();
     }
 
     public function showProfile() {
         header('Location: ../src/templates/profile.php');
+        exit();
     }
     
     //fetches all users
@@ -200,6 +178,7 @@ class Controller {
     public function showHome() {
         $users = $this->getUsers();
         header('Location: ../src/templates/home.php');
+        exit();
     }
 
 
