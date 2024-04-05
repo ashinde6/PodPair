@@ -10,21 +10,13 @@
 </head>
 
 <body>
-
-<?php if (!empty($_SESSION['errorMessages'])): ?>
-    <?php foreach ($_SESSION['errorMessages'] as $message): ?>
+  
+<?php if (!empty($errorMessages)): ?>
+    <?php foreach ($errorMessages as $message): ?>
         <div class="alert alert-danger" role="alert">
             <?= htmlspecialchars($message); ?>
         </div>
     <?php endforeach; ?>
-    <?php unset($_SESSION['errorMessages']); ?>
-<?php endif; ?>
-
-<?php if ($_SESSION['passWarning'] === true): ?>
-        <div class="alert alert-warning" role="alert">
-            Account found, but your password is incorrect
-        </div>
-        <?php unset($_SESSION['passWarning']); ?>
 <?php endif; ?>
 
 
@@ -44,7 +36,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="passwd" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="passwd" name="passwd">
+                        <input type="text" class="form-control" id="passwd" name="passwd">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Start</button>

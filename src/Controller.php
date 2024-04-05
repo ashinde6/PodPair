@@ -64,43 +64,50 @@ class Controller {
     //creates a new user instance.
     public function login() {
  
-        if($_POST['errorMessagesExist'] == 1){
-            header("../src/templates/login.php");
-            exit();
+        $errorMessages = [];
+
+        // Check for non-empty username and password
+        if (empty($_POST['name'])) {
+            $errorMessages[] = "Username is required.";
+        }
+        if (empty($_Post['passwd'])) {
+            $errorMessages[] = "Password is required.";
         }
 
-        //if the user's name and password are syntactically correct, check if their credintials are in our database
-
-        $res = $this->db->query("select * from users where username = $1;", $_POST['name']);
-        if (empty($res)) {
-            // User not in database, direct them to signup page to input their email
-            $_SESSION["username"] = $_POST['name'];
-            $_SESSION['password'] = $_POST['name'];
-            $this-> showSignup();
-            exit();
-        } 
-        
-        else {
-            //if user is in database, check if password is right.
-            if (password_verify($_SESSION['password'], $res[0]["password"])) {
-                // Password was correct, save their information to the
-                // session and redirect them to home page
-                $_SESSION["username"] = $_SESSION['username'];
-                $_SESSION["email"] = $res[0]["email"];
-                header("Location: ?command=showHome");
-                exit();
-            } 
-            else {
-                // Password was incorrect. Redirect to login
-                $_SESSION['passWarning'] = true;
-                include("../src/templates/login.php");
+        if(empty($errorMessages)){
+            $res = $this->db->query("select * from users where username = $1;", $_POST['name']);
+            if (empty($res)) {
+                // User not in database, direct them to home page and sign them up
+                $_SESSION["username"] = $_POST['name'];
+                $_SESSION['password'] = $_POST['passwd'];
+                $this->db->query(
+                    "INSERT INTO users (username, password) VALUES ($1, $2);",
+                    $_SESSION["username"], 
+                    $_SESSION['password']
+                );   
+                $this-> showHome();
                 exit();
             }
+            else{
+                if (password_verify($_POST['password'], $res[0]["password"])) {
+                    // Password was correct, save their information to the
+                    // session and redirect them to home page
+                    $_SESSION["username"] = $_POST['name'];
+                    header("Location: ?command=showHome");
+                    exit();
+                } 
+                else {
+                    // Password was incorrect. Redirect to login
+                    $errorMessages[] = "Password is not correct. Check it again";
+                }
+            } 
+
         }
 
-        // If something went wrong, show the home page
-        $this->showHome();
+        if (!empty($errorMessages)) {
+            $this->showLogin($errorMessages);
         exit();
+        }
     }
 
     public function signUp(){
@@ -132,8 +139,8 @@ class Controller {
     }
 
     //direct the user to the login page
-    public function showLogin(){
-        header('Location: ../src/templates/login.php');
+    public function showLogin($errorMessages = []){
+        include("../src/templates/login.php");
     }
 
     //direct the user to the sign up page
