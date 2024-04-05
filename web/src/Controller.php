@@ -62,6 +62,8 @@ class Controller {
             case "login":
                 $this->login();
                 break;
+            case "json":
+                $this->showJson();
             case "logout":
                 $this->logout();
                 // no break; logout will also show the welcome page.
@@ -173,6 +175,30 @@ class Controller {
             $username = $_POST["user"];
             $user = $this->findUser($username);
             include('templates/profile.php');
+        }
+    }
+
+    public function showJson() {
+        if (isset($_POST["json"])) {
+            $query = "SELECT * FROM users WHERE username = $1";
+            $username = $_POST["json"];
+            // Execute the query with the provided username
+            $user = $this->db->query($query, [$username]);
+            if ($user) {
+                // Set the response content type to JSON
+                header('Content-Type: application/json');
+                
+                // Output the user data as JSON
+                echo json_encode($user, JSON_PRETTY_PRINT);
+                
+                // Exit to prevent further output
+                exit();
+            } else {
+                // Handle the case when the user does not exist
+                // You can return an error message or perform other actions as needed
+                echo json_encode(array('error' => 'User not found'));
+                exit();
+            }
         }
     }
 
