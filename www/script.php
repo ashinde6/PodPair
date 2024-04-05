@@ -1,9 +1,9 @@
 <?php
 
     // Note that these are for the local Docker container
-    $host = "db";
+    $host = "localhost";
     $port = "5432";
-    $database = "podpair";
+    $database = "dgs5qm";
     $user = "dgs5qm";
     $password = "Pcv4wW4Z96Ng"; 
 

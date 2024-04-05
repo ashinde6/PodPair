@@ -12,7 +12,7 @@ class Database {
     public function __construct() {
         $host = "localhost";
         $port = "5432";
-        $database = "podpair";
+        $database = "dgs5qm";
         $user = "dgs5qm";
         $password = "Pcv4wW4Z96Ng";
 
