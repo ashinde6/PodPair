@@ -228,10 +228,15 @@ class Controller {
      * properties of this object and the SESSION information.
      */
     public function showHome($message = "") {
+        if (isset($_GET['searchQuery']) && !empty($_GET['searchQuery'])) {
+            $search_query = trim($_GET['searchQuery']);
+            $users = $this->db->query("SELECT * FROM users WHERE LOWER(name) LIKE LOWER('%$search_query%')");
+        } else {
+            $users = $this->getUsers();
+        }
         $name = $_SESSION["name"];
         $email = $_SESSION["email"];
         // $score = $_SESSION["score"];
-        $users = $this->getUsers();
         include("templates/home.php");
     }
 

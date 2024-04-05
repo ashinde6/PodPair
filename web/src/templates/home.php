@@ -84,22 +84,24 @@
         </nav>
 
         <main>
-            <h1 class="d-flex justify-content-center align-items-center" style="margin: 40px; font-family: 'Katibeh', serif; font-size: xxx-large; color: #0D3B66;">Find Your Next Podcast Guest</h1>
-            <div class="d-flex justify-content-center align-items-center" style="margin: 40px">
-                <div class="input-group rounded" style="width: 50%;">
-                    <div class="input-group">
-                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search">
-                        <button type="button" class="btn" data-mdb-ripple-init>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" aria-label="a magnifying glass">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                            </svg>
-                        </button>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16" style="margin-top: 4px;">
+        <h1 class="d-flex justify-content-center align-items-center" style="margin: 40px; font-family: 'Katibeh', serif; font-size: xxx-large; color: #0D3B66;">Find Your Next Podcast Guest</h1>
+        <div class="d-flex justify-content-center align-items-center" style="margin: 40px">
+            <form action="?command=search" method="get" style="width: 50%;">
+                <div class="input-group">
+                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" name="searchQuery">
+                    <button type="submit" class="btn btn-outline-secondary" data-mdb-ripple-init style="border: none; background: none; padding: 0; margin: 8px">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" aria-label="a magnifying glass">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" style="border: none; background: none; padding: 0; margin: 8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
                             <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
-                          </svg>
-                    </div>
+                        </svg>
+                    </button>
                 </div>
-            </div>
+            </form> 
+        </div>
 
             <div class="container" style="background-color: transparent; border: none;">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
