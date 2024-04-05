@@ -171,13 +171,31 @@ class Controller {
     public function showProfile() {
         if (isset($_POST["user"])) {
             $username = $_POST["user"];
-            $user = findUser($username);
+            $user = $this->findUser($username);
             include('templates/profile.php');
         }
     }
 
+    // Define the findUser method here
     public function findUser($username) {
-        
+        try {
+            // Prepare the SQL query to select a user by username
+            $query = "SELECT * FROM users WHERE username = $1";
+            
+            // Execute the query with the provided username
+            $user = $this->db->query($query, [$username]);
+    
+            // Check if the query was successful
+            if ($user === false || empty($user)) {
+                throw new Exception("User not found.");
+            }
+    
+            return $user[0]; // Assuming you expect only one user or the first one if multiple
+        } catch (Exception $e) {
+            // Log the error or handle it appropriately
+            error_log("Error: " . $e->getMessage());
+            return null;
+        }
     }
     
     /**

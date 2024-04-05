@@ -114,7 +114,7 @@
                                             <!-- <img src="<?php echo $user['profile_picture']; ?>" class="card-img-top" alt="User Profile Image"> -->
                                             <div class="card-body">
                                                 <h5 class="card-title"><?php echo $user['name']; ?></h5>
-                                                <!-- <p class="card-text"><?php echo $user['bio']; ?></p> -->
+                                                <p class="card-text"><?php echo $user['bio']; ?></p>
                                             </div>
                                         </div>
                                     </button>

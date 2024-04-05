@@ -32,13 +32,19 @@ class Database {
      * parameters provided.
      */
     public function query($query, ...$params) {
-        $res = pg_query_params($this->dbConnector, $query, $params);
-
+        if (empty($params)) {
+            $res = pg_query($this->dbConnector, $query);
+        } else {
+            // Access the first element of the outer array to flatten it
+            $params = $params[0];
+            $res = pg_query_params($this->dbConnector, $query, $params);
+        }
+    
         if ($res === false) {
             echo pg_last_error($this->dbConnector);
             return false;
         }
-
+    
         return pg_fetch_all($res);
     }
 }

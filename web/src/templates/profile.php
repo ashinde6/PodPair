@@ -91,7 +91,8 @@
             <div class="container">
                 <div class="row">
                     <div class="column" style="max-width: 300px;">
-                        <img src="images/person1.png" alt="User Profile" class="profile-picture">
+                        <!-- <img src="images/person1.png" alt="User Profile" class="profile-picture"> -->
+                        <h1><?php echo $user['name']; ?></h1>
                     </div>
                     <div class="column">
                         <h3 style="font-family: 'Katibeh', serif; font-size: 40px;"></h3>
@@ -110,7 +111,7 @@
                             <div class="section">
                                 <div class="column">
                                     <h3 style="font-family: 'Katibeh', serif;">About</h3>
-                                    <p>As a current 3rd Year at the University of Virginia, I am on a mission to inspire others to prioritize their health amidst the demands of academic life. I look to share insights on cultivating a balanced lifestyle, emphasizing the importance of healthy eating and regular exercise. Join my journey as I navigate the challenges of maintaining well-being in a college setting, offer practical tips, nutritious recipes, and motivate fellow students. </p>
+                                    <p><?php echo $user['bio']; ?></p>
                                 </div>
                             </div>
                         </div>
