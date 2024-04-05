@@ -33,19 +33,17 @@
                 <p>Please login to continue</p>
                 </div>
             </div>
-            <?=$message?>
             <div class="row">
                 <div class="col-xs-12">
                 <form action="?command=login" method="post">
-                    <div class="mb-3" style="display: none;">
+                    <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" 
-                        value="<?php echo isset($formInput['name']) ? htmlspecialchars($formInput['name']) : ''; ?>">
+                        placeholder="name">
                     </div>
                     <div class="mb-3">
                         <label for="passwd" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="passwd" name="passwd" 
-                        value="<?php echo isset($formInput['passwd']) ? htmlspecialchars($formInput['passwd']) : ''; ?>">
+                        <input type="password" class="form-control" id="passwd" name="passwd" placeholder="pass">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Start</button>
@@ -56,3 +54,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
+

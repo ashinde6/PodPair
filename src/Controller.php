@@ -149,13 +149,15 @@ class Controller {
         $_SESSION["email"] = $_POST["email"];
 
         // Send user to the homepage
+        $this->logout();
+        exit();
         header("Location: ?command=showHome");
         return;
     }
 
     //direct the user to the login page
     public function showLogin($errorMessages = [], $formInput = [], $passWarning = false){
-        header('Location: ../src/templates/login.php');
+        include_once('../src/templates/login.php');
     }
 
     //direct the user to the sign up page
