@@ -2,8 +2,7 @@
 
 class Controller {
 
-    private $questions = [];
-    
+    private $warnedOnce;   
     private $db;
 
     // An error message to display on the welcome page
@@ -17,6 +16,7 @@ class Controller {
         // of execution of PHP -- the constructor is the best place
         // to do that.
         session_start(); // start a session!
+        $this->$warnedOnce = false;
         
         // Connect to the database by instantiating a
         // Database object (provided by CS4640).  You have a copy
@@ -49,8 +49,10 @@ class Controller {
         // are not trying to login (UPDATE!), then they
         // got here without going through the welcome page, so we
         // should send them back to the welcome page only.
-        if (!isset($_SESSION["name"]) && $command != "login")
+        if (!isset($_SESSION["username"]) && $command != "login" && $this->$warnedOnce == false){
             $command = "login";
+            $this->$warnedOnce = true;
+        }
 
         switch($command) {
             case "home":
@@ -60,7 +62,7 @@ class Controller {
                 $this->showProfile();
                 break;
             case "login":
-                $this->login();
+                $this->loginDatabase();
                 break;
             case "json":
                 $this->showJson();
@@ -73,30 +75,6 @@ class Controller {
         }
     }
 
-    /**
-     * Login Function
-     *
-     * This function checks that the user submitted the form and did not
-     * leave the name and email inputs empty.  If all is well, we set
-     * their information into the session and then send them to the 
-     * question page.  If all didn't go well, we set the class field
-     * errorMessage and show the welcome page again with that message.
-     *
-     * NOTE: This is the function we wrote in class!  It **should** also
-     * check more detailed information about the name/email to make sure
-     * they are valid.
-     */
-    public function login() {
-        if (isset($_POST["fullname"]) && isset($_POST["email"]) &&
-            !empty($_POST["fullname"]) && !empty($_POST["email"])) {
-            $_SESSION["name"] = $_POST["fullname"];
-            $_SESSION["email"] = $_POST["email"];
-            header("Location: ?command=home");
-            return;
-        }
-        $this->errorMessage = "Error logging in - Name and email is required";
-        $this->showWelcome();
-    }
 
     /**
      * Alternate Login Function
@@ -115,22 +93,19 @@ class Controller {
      * are stored in the database.
      */
     public function loginDatabase() {
-        // User must provide a non-empty name, email, and password to attempt a login
-        if(isset($_POST["fullname"]) && !empty($_POST["fullname"]) &&
-            isset($_POST["email"]) && !empty($_POST["email"]) &&
+        // User must provide a non-empty name and password to attempt a login
+        if(isset($_POST["username"]) && !empty($_POST["username"]) &&
             isset($_POST["passwd"]) && !empty($_POST["passwd"])) {
 
-                // Check if user is in database, by email
-                $res = $this->db->query("select * from users where email = $1;", $_POST["email"]);
+                // Check if user is in database, by name
+                $res = $this->db->query("select * from users where username = $1;", $_POST["username"]);
                 if (empty($res)) {
                     // User was not there (empty result), so insert them
-                    $this->db->query("insert into users (name, email, password, score) values ($1, $2, $3, $4);",
-                        $_POST["fullname"], $_POST["email"],
+                    $this->db->query("insert into users (username, password) values ($1, $2);",
+                        $_POST["username"], 
                         // Use the hashed password!
-                        password_hash($_POST["passwd"], PASSWORD_DEFAULT), 0);
-                    $_SESSION["name"] = $_POST["fullname"];
-                    $_SESSION["email"] = $_POST["email"];
-                    $_SESSION["score"] = 0;
+                        password_hash($_POST["passwd"], PASSWORD_DEFAULT));
+                    $_SESSION["username"] = $_POST["username"];
                     // Send user to the appropriate page (question)
                     header("Location: ?command=home");
                     return;
@@ -141,9 +116,7 @@ class Controller {
                     if (password_verify($_POST["passwd"], $res[0]["password"])) {
                         // Password was correct, save their information to the
                         // session and send them to the question page
-                        $_SESSION["name"] = $res[0]["name"];
-                        $_SESSION["email"] = $res[0]["email"];
-                        $_SESSION["score"] = $res[0]["score"];
+                        $_SESSION["username"] = $res[0]["username"];
                         header("Location: ?command=home");
                         return;
                     } else {
@@ -152,7 +125,7 @@ class Controller {
                     }
                 }
         } else {
-            $this->errorMessage = "Name, email, and password are required.";
+            $this->errorMessage = "Name and password are required.";
         }
         // If something went wrong, show the welcome page again
         $this->showWelcome();
@@ -224,9 +197,37 @@ class Controller {
         }
     }
     
+
     /**
-     * Our getQuestion function, now as a method!
+     * Show a question to the user.  This function loads a
+     * template PHP file and displays it to the user based on
+     * properties of this object and the SESSION information.
      */
+    public function showHome($message = "") {
+        if (isset($_GET['searchQuery']) && !empty($_GET['searchQuery'])) {
+            $search_query = trim($_GET['searchQuery']);
+            $users = $this->db->query("SELECT * FROM users WHERE LOWER(name) LIKE LOWER('%$search_query%')");
+        } else {
+            $users = $this->getUsers();
+        }
+        $name = $_SESSION["username"];
+        // $score = $_SESSION["score"];
+        include("templates/home.php");
+    }
+
+    /**
+     * Show the welcome page to the user.
+     */
+    public function showWelcome() {
+        // Show an optional error message if the errorMessage field
+        // is not empty.
+        $message = "";
+        if (!empty($this->errorMessage)) {
+            $message = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
+        }
+        include("templates/login.php");
+    }
+
     public function getUsers($id=null) {
 
         // If $id is not set, then get a random question
@@ -246,67 +247,6 @@ class Controller {
             error_log("Error: " . $e->getMessage());
             return false;
         }
-    }
-
-    /**
-     * Show a question to the user.  This function loads a
-     * template PHP file and displays it to the user based on
-     * properties of this object and the SESSION information.
-     */
-    public function showHome($message = "") {
-        if (isset($_GET['searchQuery']) && !empty($_GET['searchQuery'])) {
-            $search_query = trim($_GET['searchQuery']);
-            $users = $this->db->query("SELECT * FROM users WHERE LOWER(name) LIKE LOWER('%$search_query%')");
-        } else {
-            $users = $this->getUsers();
-        }
-        $name = $_SESSION["name"];
-        $email = $_SESSION["email"];
-        // $score = $_SESSION["score"];
-        include("templates/home.php");
-    }
-
-    /**
-     * Show the welcome page to the user.
-     */
-    public function showWelcome() {
-        // Show an optional error message if the errorMessage field
-        // is not empty.
-        $message = "";
-        if (!empty($this->errorMessage)) {
-            $message = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
-        }
-        include("templates/login.php");
-    }
-
-    /**
-     * Check the user's answer to a question.
-     */
-    public function answerQuestion() {
-        $message = "";
-        if (isset($_POST["questionid"]) && is_numeric($_POST["questionid"])) {
-
-            $question = $this->getQuestion($_POST["questionid"]);
-
-            if (strtolower(trim($_POST["answer"])) == strtolower($question["answer"])) {
-                $message = "<div class=\"alert alert-success\" role=\"alert\">
-                    Correct!
-                    </div>";
-                // Update the score in the session
-                $_SESSION["score"] += 10;
-
-                // **NEW**: We'll update the user's score in the database, too!
-                $this->db->query("update users set score = $1 where email = $2;", 
-                                    $_SESSION["score"], $_SESSION["email"]);
-            }
-            else {
-                $message = "<div class=\"alert alert-danger\" role=\"alert\">
-                    Incorrect! The correct answer was: {$question["answer"]}
-                    </div>";
-            }
-        }
-
-        $this->showHome($message);
     }
 
 }

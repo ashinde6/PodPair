@@ -15,22 +15,57 @@ class Database {
      * Connects to PostgresSQL
      */
     public function __construct() {
-        $host = Config::$db["host"];
-        $user = Config::$db["user"];
-        $database = Config::$db["database"];
-        $password = Config::$db["pass"];
-        $port = Config::$db["port"];
-
+        $host = "localhost";
+        $port = "5432";
+        $database = "dgs5qm";
+        $user = "dgs5qm";
+        $password = "Pcv4wW4Z96Ng"; 
         $this->dbConnector = pg_connect("host=$host port=$port dbname=$database user=$user password=$password");
-    }
 
-    /**
-     * Query
-     *
-     * Makes a query to posgres and returns an array of the results.
-     * The query must include placeholders for each of the additional
-     * parameters provided.
-     */
+        $tableQ = "SELECT EXISTS (
+            SELECT FROM pg_tables 
+            WHERE schemaname = 'public' AND tablename  = 'users'
+            );";
+            $tableSearch = pg_query($this->dbConnector, $tableQ);
+            $tableExists = pg_fetch_result($tableSearch, 0, 0);
+        
+            if (!$tableExists) {
+                $this->createTables();
+            }
+        }
+    
+    private function createTables(){
+
+        //Create our sequences
+        pg_query($this->dbConnector, "CREATE SEQUENCE featuredOn_seq;");
+        pg_query($this->dbConnector, "CREATE SEQUENCE user_seq;");
+        pg_query($this->dbConnector, "CREATE SEQUENCE tags_seq;");
+
+        //Create our tables
+        pg_query($this->dbConnector, "CREATE TABLE users (
+            username TEXT PRIMARY KEY,
+            name TEXT,
+            id INT DEFAULT nextval('user_seq'),
+            email TEXT,
+            password TEXT,
+            bio TEXT,
+            type TEXT,
+            profile_picture TEXT
+        );");
+        pg_query($this->dbConnector, "CREATE TABLE featured_on (
+            id INT PRIMARY KEY DEFAULT nextval('featuredOn_seq'),
+            username TEXT,
+            feature TEXT
+        );");
+        pg_query($this->dbConnector, "CREATE TABLE tags (
+            id INT PRIMARY KEY DEFAULT nextval('tags_seq'),
+            username TEXT,
+            tag TEXT
+        );");
+
+        echo "New database created\n";
+
+    } 
     public function query($query, ...$params) {
         if (empty($params)) {
             $res = pg_query($this->dbConnector, $query);

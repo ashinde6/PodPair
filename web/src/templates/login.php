@@ -19,27 +19,20 @@
                 </div>
             </div>
             <?=$message?>
-            <div class="row">
-                <div class="col-xs-12">
-                <form action="?command=login" method="post">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="fullname">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="passwd" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="passwd" name="passwd">
-                    </div>
 
-                    <button type="submit" class="btn btn-primary">Start</button>
-                </form>
+            <form action="?command=login" method="post">
+                <div class="form-group">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="username">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="passwd" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="passwd" name="passwd">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Start</button>
+            </form>
+
         </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
