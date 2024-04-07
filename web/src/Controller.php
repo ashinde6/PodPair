@@ -1,8 +1,7 @@
 <?php
 
 class Controller {
-
-    private $warnedOnce;   
+ 
     private $db;
 
     // An error message to display on the welcome page
@@ -16,7 +15,6 @@ class Controller {
         // of execution of PHP -- the constructor is the best place
         // to do that.
         session_start(); // start a session!
-        $this->$warnedOnce = false;
         
         // Connect to the database by instantiating a
         // Database object (provided by CS4640).  You have a copy
@@ -49,9 +47,9 @@ class Controller {
         // are not trying to login (UPDATE!), then they
         // got here without going through the welcome page, so we
         // should send them back to the welcome page only.
-        if (!isset($_SESSION["username"]) && $command != "login" && $this->$warnedOnce == false){
+        if (!isset($_SESSION["username"]) && $command != "login"){
             $command = "login";
-            $this->$warnedOnce = true;
+
         }
 
         switch($command) {
@@ -101,11 +99,13 @@ class Controller {
                 $res = $this->db->query("select * from users where username = $1;", $_POST["username"]);
                 if (empty($res)) {
                     // User was not there (empty result), so insert them
-                    $this->db->query("insert into users (username, password) values ($1, $2);",
+                    $this->db->query("insert into users (username, name, password) values ($1, $2, $3);",
                         $_POST["username"], 
+                        $_POST["name"],
                         // Use the hashed password!
                         password_hash($_POST["passwd"], PASSWORD_DEFAULT));
                     $_SESSION["username"] = $_POST["username"];
+                    $_SESSION["name"] = $_POST["username"];
                     // Send user to the appropriate page (question)
                     header("Location: ?command=home");
                     return;
@@ -156,7 +156,7 @@ class Controller {
             $query = "SELECT * FROM users WHERE username = $1";
             $username = $_POST["json"];
             // Execute the query with the provided username
-            $user = $this->db->query($query, [$username]);
+            $user = $this->db->query($query, $username);
             if ($user) {
                 // Set the response content type to JSON
                 header('Content-Type: application/json');
@@ -182,7 +182,7 @@ class Controller {
             $query = "SELECT * FROM users WHERE username = $1";
             
             // Execute the query with the provided username
-            $user = $this->db->query($query, [$username]);
+            $user = $this->db->query($query, $username);
     
             // Check if the query was successful
             if ($user === false || empty($user)) {

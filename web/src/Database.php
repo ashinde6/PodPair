@@ -67,11 +67,12 @@ class Database {
 
     } 
     public function query($query, ...$params) {
+        // Check if parameters were provided
         if (empty($params)) {
+            // Execute query without parameters
             $res = pg_query($this->dbConnector, $query);
         } else {
-            // Access the first element of the outer array to flatten it
-            $params = $params[0];
+            // Execute query with parameters
             $res = pg_query_params($this->dbConnector, $query, $params);
         }
     
