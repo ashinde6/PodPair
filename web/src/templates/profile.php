@@ -99,7 +99,7 @@ $json_user = json_encode($user, JSON_PRETTY_PRINT);
                 <div class="row">
                     <div class="column" style="max-width: 300px;">
                         <!-- <img src="images/person1.png" alt="User Profile" class="profile-picture"> -->
-                        <h1><?php echo $userName; ?></h1>
+                        <h1><?php echo $username; ?></h1>
                     </div>
                     <!-- <div class="column">
                         <h3 style="font-family: 'Katibeh', serif; font-size: 40px;"></h3>

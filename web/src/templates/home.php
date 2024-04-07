@@ -61,7 +61,7 @@
                         </li>
                         <li class="nav-item" style="margin-right: 10px">
                             <form action="?command=profile" method="post">
-                                <input type="hidden" id="userId" name="user" value="<?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : ''; ?>">
+                                <input type="hidden" id="userId" name="username" value="<?php echo $_SESSION['username'] ?>">
                                 <button type="submit" style="border: none; background: none; padding: 0;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16" aria-label="a figure of a person's upper body">
                                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
@@ -111,7 +111,7 @@
                             ?>
                             <div class="col">
                                 <form action="?command=profile" method="post">
-                                    <input type="hidden" name="user" value="<?=$user['username']?>">
+                                    <input type="hidden" name="username" value="<?=$user['username']?>">
                                     <button type="submit" style="border: none; background: none; padding: 0;">
                                         <div class="card card-home">
                                             <!-- <img src="<?php echo $user['profile_picture']; ?>" class="card-img-top" alt="User Profile Image"> -->

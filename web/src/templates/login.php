@@ -11,6 +11,15 @@
 
 <body>
 
+<?php if (!empty($_SESSION['errorMessages'])): ?>
+    <?php foreach ($_SESSION['errorMessages'] as $message): ?>
+        <div class="alert alert-danger" role="alert">
+            <?= htmlspecialchars($message); ?>
+        </div>
+    <?php endforeach; ?>
+    <?php unset($_SESSION['errorMessages']); ?>
+<?php endif; ?>
+
 <div class="container" style="margin-top: 15px;">
             <div class="row">
                 <div class="col-xs-12">
@@ -18,16 +27,23 @@
                 <p>Please login to continue</p>
                 </div>
             </div>
-            <?=$message?>
 
             <form action="?command=login" method="post">
                 <div class="form-group">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="username">
+                    <label for="username" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="username" name="username">
                 </div>
                 <div class="form-group">
                     <label for="passwd" class="form-label">Password</label>
                     <input type="password" class="form-control" id="passwd" name="passwd">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="bio" class="form-label">Update Bio (optional)</label>
+                    <input type="text" class="form-control" id="bio" name="bio">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Start</button>

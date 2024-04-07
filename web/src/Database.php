@@ -34,6 +34,7 @@ class Database {
             }
         }
     
+    //if tables aren't instantiated, create them
     private function createTables(){
 
         //Create our sequences
@@ -66,6 +67,8 @@ class Database {
         echo "New database created\n";
 
     } 
+
+    //updated from original to take variables not arrays
     public function query($query, ...$params) {
         // Check if parameters were provided
         if (empty($params)) {

@@ -4,51 +4,31 @@ class Controller {
  
     private $db;
 
-    // An error message to display on the welcome page
-    private $errorMessage = "";
-
     /**
      * Constructor
      */
     public function __construct($input) {
-        // We should always start (or join) a session at the top
-        // of execution of PHP -- the constructor is the best place
-        // to do that.
-        session_start(); // start a session!
+
+        session_start(); // start a session
         
-        // Connect to the database by instantiating a
-        // Database object (provided by CS4640).  You have a copy
-        // in the src/example directory, but it will be below as well.
+        // Connect to the database and check if tables exist, if not, instantiate them
         $this->db = new Database();
 
         // Set input
         $this->input = $input;
 
-        // Loading questions no longer necessary, as they are
-        // in the database
-        //$this->loadQuestions();
     }
 
-    /**
-     * Run the server
-     * 
-     * Given the input (usually $_GET), then it will determine
-     * which command to execute based on the given "command"
-     * parameter.  Default is the welcome page.
-     */
+    // Run server
     public function run() {
         // Get the command
         $command = "home";
         if (isset($this->input["command"]))
             $command = $this->input["command"];
 
-        // NOTE: UPDATED 3/29/2024!!!!!
-        // If the session doesn't have the key "name", AND they
-        // are not trying to login (UPDATE!), then they
-        // got here without going through the welcome page, so we
-        // should send them back to the welcome page only.
-        if (!isset($_SESSION["username"]) && $command != "login"){
-            $command = "login";
+        // if user is not logged in, redirect to login page
+        if (!isset($_SESSION["username"]) && ($command != "showLogin" && $command != "login")){
+            $command = "showLogin";
 
         }
 
@@ -56,11 +36,13 @@ class Controller {
             case "home":
                 $this->showHome();
                 break;
+            case "showLogin":
+                $this->showLogin();
             case "profile":
                 $this->showProfile();
                 break;
             case "login":
-                $this->loginDatabase();
+                $this->login();
                 break;
             case "json":
                 $this->showJson();
@@ -68,89 +50,110 @@ class Controller {
                 $this->logout();
                 // no break; logout will also show the welcome page.
             default:
-                $this->showWelcome();
+                $this->showLogin();
                 break;
         }
     }
 
 
-    /**
-     * Alternate Login Function
-     *
-     * **NEW**: we can replace the function above with this function which
-     * will check the user's credentials against their information in the
-     * database's users table to see if their password is correct.
-     *
-     * 1) if the user is not in the table, it automatically adds them and saves
-     * the 1-way hash of their password to the table (so that they can log in again later)
-     * 2) if the user is in the table, then it verifies that the password they
-     * provided is correct.   If so, it allows them to continue playing, reading their
-     * score out of the database.
-     *
-     * NOTE: you should **not** save passwords in clear text -- only the hashed passwords
-     * are stored in the database.
-     */
-    public function loginDatabase() {
-        // User must provide a non-empty name and password to attempt a login
-        if(isset($_POST["username"]) && !empty($_POST["username"]) &&
-            isset($_POST["passwd"]) && !empty($_POST["passwd"])) {
+    //checks that user inputted name, email, and password that adhere to our guidelines, if so, checks if login information is valid, and create new account if not
+    public function login() {
+        $username = "";
+        $password = "";
 
-                // Check if user is in database, by name
-                $res = $this->db->query("select * from users where username = $1;", $_POST["username"]);
-                if (empty($res)) {
-                    // User was not there (empty result), so insert them
-                    $this->db->query("insert into users (username, name, password) values ($1, $2, $3);",
-                        $_POST["username"], 
-                        $_POST["name"],
-                        // Use the hashed password!
-                        password_hash($_POST["passwd"], PASSWORD_DEFAULT));
-                    $_SESSION["username"] = $_POST["username"];
-                    $_SESSION["name"] = $_POST["username"];
-                    // Send user to the appropriate page (question)
-                    header("Location: ?command=home");
-                    return;
-                } else {
-                    // User was in the database, verify password is correct
-                    // Note: Since we used a 1-way hash, we must use password_verify()
-                    // to check that the passwords match.
-                    if (password_verify($_POST["passwd"], $res[0]["password"])) {
-                        // Password was correct, save their information to the
-                        // session and send them to the question page
-                        $_SESSION["username"] = $res[0]["username"];
-                        header("Location: ?command=home");
-                        return;
-                    } else {
-                        // Password was incorrect
-                        $this->errorMessage = "Incorrect password.";
-                    }
-                }
+        // Check if the user has provided a password that adheres to our guidelines
+        if (isset($_POST["passwd"])) {
+            $password = (string)$_POST["passwd"];
+
+            if (strlen($password) <= 5) {
+                $_SESSION['errorMessages'][] = "Password must be longer than 5 characters."; //check if password is longer than 5 characters
+            }
+            if (!preg_match('~[0-9]+~', $password)) {
+                $_SESSION['errorMessages'][] = "Password must contain at least one number."; //use regex to check if password has at least one number
+            }
         } else {
-            $this->errorMessage = "Name and password are required.";
+            $_SESSION['errorMessages'][] = "Password is required.";
         }
-        // If something went wrong, show the welcome page again
-        $this->showWelcome();
+
+        // Check if the user has provided a username that adheres to our guidelines
+        if (isset($_POST["username"])) {
+            $name = (string)$_POST["username"];
+
+            if (strlen($name) <= 3) {
+                $_SESSION['errorMessages'][] = "Username must be longer than 3 characters."; //check that username is longer than 3 characters
+            }
+        } else {
+            $_SESSION['errorMessages'][] = "Username is required.";
+        }
+
+        //check if email follows standard guidelines
+        $pattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+        if (!isset($_POST["email"]) || !preg_match($pattern, $_POST["email"])){
+            $_SESSION['errorMessages'][] = "email is not formatted correctly. Please follow the standard guidelines"; 
+        }
+
+        //if there are any error messages, resend the user to welcome page
+        if(!empty($_SESSION['errorMessages'])){
+            $this -> showLogin();
+            return;
+        }
+
+        //if there are no error messages, time to validate the user details
+
+        // Check if user is in database
+        $res = $this->db->query("select * from users where username = $1;", $_POST["username"]);
+        if (empty($res)) {
+            // User was not there (empty result), so insert them
+            $this->db->query("insert into users (username, name, email, password, bio) values ($1, $2, $3, $4, $5);",
+                $_POST["username"], 
+                $_POST["username"],
+                $_POST["email"],
+                password_hash($_POST["passwd"], PASSWORD_DEFAULT), 
+                $_POST["bio"]);
+
+            $_SESSION["username"] = $_POST["username"];
+            $_SESSION["name"] = $_POST["username"];
+            // Send user to homepage
+            header("Location: ?command=home");
+            return;
+        } else {
+            //check if passwords match
+            if (password_verify($_POST["passwd"], $res[0]["password"])) {
+                // Password was correct
+                $_SESSION["username"] = $res[0]["username"];
+                $_SESSION["name"] = $res[0]["username"];
+                //update existing bio if user decided to write something else.
+                if (isset($_POST["bio"]) && !empty($_POST["bio"])) {
+                    $result = $this->db->query("UPDATE users SET bio = $1 WHERE username = $2", $_POST["bio"], $_SESSION['username']);
+                } 
+                header("Location: ?command=home");
+                return;
+            } else {
+                // Account found but password was incorrect
+                $_SESSION['errorMessages'] = ["Account found but password was incorrect"];
+            }
+        }
+    // If something went wrong, show the welcome page again
+    $this->showLogin();
     }
 
 
-    /**
-     * Logout
-     *
-     * Destroys the session, essentially logging the user out.  It will then start
-     * a new session so that we have $_SESSION if we need it.
-     */
+   //logout. Destroy and restart session
     public function logout() {
         session_destroy();
         session_start();
     }
 
+
+    //show the profile of self or other users
     public function showProfile() {
-        if (isset($_POST["user"])) {
-            $username = $_POST["user"];
-            $user = $this->findUser($username);
+        if (isset($_POST["username"])) {
+            $user = $this->findUser($_POST["username"]);
             include('templates/profile.php');
         }
     }
 
+    //return user information in json format
     public function showJson() {
         if (isset($_POST["json"])) {
             $query = "SELECT * FROM users WHERE username = $1";
@@ -198,40 +201,24 @@ class Controller {
     }
     
 
-    /**
-     * Show a question to the user.  This function loads a
-     * template PHP file and displays it to the user based on
-     * properties of this object and the SESSION information.
-     */
-    public function showHome($message = "") {
+    // prepare homepage and handle search requests
+    public function showHome() {
         if (isset($_GET['searchQuery']) && !empty($_GET['searchQuery'])) {
             $search_query = trim($_GET['searchQuery']);
             $users = $this->db->query("SELECT * FROM users WHERE LOWER(name) LIKE LOWER('%$search_query%')");
         } else {
             $users = $this->getUsers();
         }
-        $name = $_SESSION["username"];
-        // $score = $_SESSION["score"];
         include("templates/home.php");
     }
 
-    /**
-     * Show the welcome page to the user.
-     */
-    public function showWelcome() {
-        // Show an optional error message if the errorMessage field
-        // is not empty.
-        $message = "";
-        if (!empty($this->errorMessage)) {
-            $message = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
-        }
+    //display the login page
+    public function showLogin() {
         include("templates/login.php");
     }
 
     public function getUsers($id=null) {
 
-        // If $id is not set, then get a random question
-        // We wrote this in class.
         try {
             // Query to select all users
             $users = $this->db->query("SELECT * FROM users;");
