@@ -85,7 +85,7 @@
         </nav>
 
         <main>
-        <h1 class="d-flex justify-content-center align-items-center" style="margin: 40px; font-family: 'Katibeh', serif; font-size: xxx-large; color: #0D3B66;">Find Your Next Podcast Guest</h1>
+        <h1 class="d-flex justify-content-center align-items-center" style="margin: 40px; font-family: 'Katibeh', serif; font-size: xxx-large; color: #0D3B66;">Find Your Next Podcast <?php echo htmlspecialchars($header); ?></h1>
         <div class="d-flex justify-content-center align-items-center" style="margin: 40px">
             <form style="width: 50%;" id="searchForm" name="searchForm">
                 <div class="input-group">

@@ -203,20 +203,26 @@ class Controller {
 
     // prepare homepage and handle search requests
     public function showHome() {
+        if (!isset($_SESSION["username"])) {
+            throw new Exception("Session username is not set.");
+        }
+    
+        $type = "SELECT type FROM users WHERE username = $1";
+        $result = $this->db->query($type, $_SESSION["username"]);
+
+        if (empty($result)) {
+            throw new Exception("User not found or type could not be determined.");
+        }
+    
+        $user_type = $result[0]['type'];
+    
+        $opposite = ($user_type === 'p') ? 'g' : 'p';
+        $header = ($user_type === 'p') ? 'Guest' : 'Feature';
+    
         if (isset($_GET['searchQuery']) && !empty($_GET['searchQuery'])) {
             $search_query = trim($_GET['searchQuery']);
-
-            $type = "SELECT type FROM users WHERE username = $1";
-            $result = $this->db->query($type, $_SESSION["username"]);
-            
-            if (empty($result)) {
-                throw new Exception("User not found or type could not be determined.");
-            }
-        
-            $user_type = $result[0]['type'];
-            $opposite = ($user_type === 'p') ? 'g' : 'p';
-            
-            // ensure that you can only search from the opposite type of user list
+    
+            // ensure that you can only search from the opposite type of user
             $users = $this->db->query("SELECT * FROM users WHERE LOWER(name) LIKE LOWER('%$search_query%') AND type = $1;", $opposite);
             if (empty($users)) {
                 $users = $this->getUsers();
@@ -224,9 +230,9 @@ class Controller {
         } else {
             $users = $this->getUsers();
         }
-
         include("templates/home.php");
     }
+    
 
     //display the login page
     public function showLogin() {
