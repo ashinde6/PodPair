@@ -9,8 +9,8 @@ ini_set("display_errors", 1);
 // is our src/ directory in Docker.
 spl_autoload_register(function ($classname) {
         // include "/opt/src/$classname.php";
-       // include "/students/dgs5qm/students/dgs5qm/private/podpair/$classname.php";
-       include "../src/$classname.php";
+       include "/students/dgs5qm/students/dgs5qm/private/podpair/$classname.php";
+//        include "../src/$classname.php";
 });
 
 // Other global things that we need to do

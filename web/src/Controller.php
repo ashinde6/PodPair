@@ -205,10 +205,26 @@ class Controller {
     public function showHome() {
         if (isset($_GET['searchQuery']) && !empty($_GET['searchQuery'])) {
             $search_query = trim($_GET['searchQuery']);
-            $users = $this->db->query("SELECT * FROM users WHERE LOWER(name) LIKE LOWER('%$search_query%')");
+
+            $type = "SELECT type FROM users WHERE username = $1";
+            $result = $this->db->query($type, $_SESSION["username"]);
+            
+            if (empty($result)) {
+                throw new Exception("User not found or type could not be determined.");
+            }
+        
+            $user_type = $result[0]['type'];
+            $opposite = ($user_type === 'p') ? 'g' : 'p';
+            
+            // ensure that you can only search from the opposite type of user list
+            $users = $this->db->query("SELECT * FROM users WHERE LOWER(name) LIKE LOWER('%$search_query%') AND type = $1;", $opposite);
+            if (empty($users)) {
+                $users = $this->getUsers();
+            }
         } else {
             $users = $this->getUsers();
         }
+
         include("templates/home.php");
     }
 
@@ -217,23 +233,31 @@ class Controller {
         include("templates/login.php");
     }
 
-    public function getUsers($id=null) {
-
+    public function getUsers() {
+        $type = "SELECT type FROM users WHERE username = $1";
+        $result = $this->db->query($type, $_SESSION["username"]);
+        
+        if (empty($result)) {
+            throw new Exception("User not found or type could not be determined.");
+        }
+    
+        $user_type = $result[0]['type'];
+        // get the opposite type of user
+        $opposite = ($user_type === 'p') ? 'g' : 'p';
+    
         try {
-            // Query to select all users
-            $users = $this->db->query("SELECT * FROM users;");
+            // only select the opposite type of user
+            $users = $this->db->query("SELECT * FROM users WHERE type = $1;", $opposite);
             
-            // Check if query was successful
             if ($users === false) {
                 throw new Exception("Error retrieving users from the database.");
             }
-    
+            
             return $users;
         } catch (Exception $e) {
-            // Log the error or handle it appropriately
             error_log("Error: " . $e->getMessage());
             return false;
         }
-    }
+    }    
 
 }
