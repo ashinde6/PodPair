@@ -131,7 +131,9 @@ $json_user = json_encode($user, JSON_PRETTY_PRINT);
                             <button id="toggleContactInfo" class="btn btn-info">Show Contact Info</button>
                             <p id="contactInfo" style="display: none;">Email: <?php echo htmlspecialchars($userEmail); ?></p>
                         </div>
-
+                        <div class="container">
+                            <button type="button" id="updateButton" class="btn btn-primary">Update your info</button>
+                        </div>
                         <!-- <div class="column">
                             <div class="section">
                                 <div class="column">
@@ -177,6 +179,13 @@ $json_user = json_encode($user, JSON_PRETTY_PRINT);
             $('#toggleContactInfo').click(function() {
                 $('#contactInfo').toggle();
                 });
+            
+            $('#updateButton').click(function() {
+                var userData = <?php echo json_encode($user, JSON_PRETTY_PRINT); ?>;
+                $.post('?command=updateprofile', {userData: JSON.stringify(userData)}, function(response) {
+                    window.location.href = 'update.php'; // Redirect to the update page
+                });
+            });
         });
     </script>
 

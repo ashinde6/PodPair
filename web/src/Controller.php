@@ -44,6 +44,9 @@ class Controller {
             case "profile":
                 $this->showProfile();
                 break;
+            case "ownProfile":
+                $this->showOwnProfile();
+                break;
             case "login":
                 $this->login();
                 break;
@@ -56,6 +59,12 @@ class Controller {
                 break;
             case "signup":
                 $this->signup();
+                break;
+            case "updateprofile":
+                $this->updateprofile();
+                break;
+            case "performUpdate":
+                $this->performUpdate();
                 break;
             default:
                 $this->showLogin();
@@ -153,19 +162,33 @@ class Controller {
         session_start();
     }
 
+    public function showOwnProfile(){
+        if (isset($_SESSION["username"])) {
+            $user = $this->findUser($_SESSION["username"]);
+        }
+        else {
+            // Optionally handle the error state when no username is available
+            echo "No username provided for profile lookup.";
+            return;
+        }
+        if ($user) {
+            include('templates/ownProfile.php');
+        } else {
+            // Handle case where user is not found
+            echo "User not found.";
+        }
+    }
 
     //show the profile of self or other users
     public function showProfile() {
         if (isset($_POST["username"])) {
             $user = $this->findUser($_POST["username"]);
-        } else if (isset($_SESSION["username"])) {
-            $user = $this->findUser($_SESSION["username"]);
-        } else {
+        }
+        else {
             // Optionally handle the error state when no username is available
             echo "No username provided for profile lookup.";
             return;
         }
-    
         if ($user) {
             include('templates/profile.php');
         } else {
@@ -258,6 +281,24 @@ class Controller {
     public function showLogin() {
         include("templates/login.php");
     }
+
+    public function updateprofile(){
+        $_SESSION['updateData'] = $_POST['userData'];
+        header("Location: update.php");
+        exit();
+    }
+
+    public function performUpdate(){
+        $username = $_POST['username'];
+        $bio = $_POST['bio'];
+        // Assume userID is stored in session or retrieved through other secure means
+        $userID = $_SESSION['userId']; // Ensure userID is already set in session when user logs in
+        // Update database query here, e.g.,
+        $this->db->query("UPDATE users SET username = $1, bio = $2 WHERE id = $3", $username, $bio, $userID);
+        header("Location: ownProfile.php"); // Redirect back to the profile page
+        exit();
+    }
+    
 
     public function getUsers() {
         $type = "SELECT type FROM users WHERE username = $1";
