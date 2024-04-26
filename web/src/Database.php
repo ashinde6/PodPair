@@ -70,20 +70,20 @@ class Database {
 
     //updated from original to take variables not arrays
     public function query($query, ...$params) {
-        // Check if parameters were provided
         if (empty($params)) {
-            // Execute query without parameters
             $res = pg_query($this->dbConnector, $query);
         } else {
-            // Execute query with parameters
             $res = pg_query_params($this->dbConnector, $query, $params);
         }
     
         if ($res === false) {
-            echo pg_last_error($this->dbConnector);
+            // More detailed error reporting
+            $error = pg_last_error($this->dbConnector);
+            error_log($error);  // Log error to PHP error log
             return false;
         }
     
         return pg_fetch_all($res);
     }
+    
 }

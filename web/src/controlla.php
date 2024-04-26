@@ -17,19 +17,17 @@ class Controller {
         // Set input
         $this->input = $input;
 
-        $_SESSION['errorMessages'] = [];
-
     }
 
     // Run server
     public function run() {
         // Get the command
-        $command = "showLogin";
+        $command = "home";
         if (isset($this->input["command"]))
             $command = $this->input["command"];
 
         // if user is not logged in, redirect to login page
-        if (!isset($_SESSION["username"]) && ($command != "showLogin" && $command != "login" && $command != "signup")){
+        if (!isset($_SESSION["username"]) && ($command != "showLogin" && $command != "login")){
             $command = "showLogin";
 
         }
@@ -40,7 +38,6 @@ class Controller {
                 break;
             case "showLogin":
                 $this->showLogin();
-                break;
             case "profile":
                 $this->showProfile();
                 break;
@@ -49,14 +46,9 @@ class Controller {
                 break;
             case "json":
                 $this->showJson();
-                break;
             case "logout":
                 $this->logout();
                 // no break; logout will also show the welcome page.
-                break;
-            case "signup":
-                $this->signup();
-                break;
             default:
                 $this->showLogin();
                 break;
@@ -66,14 +58,38 @@ class Controller {
 
     //checks that user inputted name, email, and password that adhere to our guidelines, if so, checks if login information is valid, and create new account if not
     public function login() {
+        $username = "";
+        $password = "";
+
         // Check if the user has provided a password that adheres to our guidelines
-        if (!isset($_POST["passwd"])) {
+        if (isset($_POST["passwd"])) {
+            $password = (string)$_POST["passwd"];
+
+            if (strlen($password) <= 5) {
+                $_SESSION['errorMessages'][] = "Password must be longer than 5 characters."; //check if password is longer than 5 characters
+            }
+            if (!preg_match('~[0-9]+~', $password)) {
+                $_SESSION['errorMessages'][] = "Password must contain at least one number."; //use regex to check if password has at least one number
+            }
+        } else {
             $_SESSION['errorMessages'][] = "Password is required.";
         }
 
         // Check if the user has provided a username that adheres to our guidelines
-        if (!isset($_POST["username"])) {
+        if (isset($_POST["username"])) {
+            $name = (string)$_POST["username"];
+
+            if (strlen($name) <= 3) {
+                $_SESSION['errorMessages'][] = "Username must be longer than 3 characters."; //check that username is longer than 3 characters
+            }
+        } else {
             $_SESSION['errorMessages'][] = "Username is required.";
+        }
+
+        //check if email follows standard guidelines
+        $pattern = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+        if (!isset($_POST["email"]) || !preg_match($pattern, $_POST["email"])){
+            $_SESSION['errorMessages'][] = "email is not formatted correctly. Please follow the standard guidelines"; 
         }
 
         //if there are any error messages, resend the user to welcome page
@@ -87,66 +103,41 @@ class Controller {
         // Check if user is in database
         $res = $this->db->query("select * from users where username = $1;", $_POST["username"]);
         if (empty($res)) {
-            $_SESSION['errorMessages'][] = "Could not find your account in our system. Consider signing up instead?";
+            // User was not there (empty result), so insert them
+            $this->db->query("insert into users (username, name, email, password, bio) values ($1, $2, $3, $4, $5);",
+                $_POST["username"], 
+                $_POST["username"],
+                $_POST["email"],
+                password_hash($_POST["passwd"], PASSWORD_DEFAULT), 
+                $_POST["bio"]);
+
+            $_SESSION["username"] = $_POST["username"];
+            $_SESSION["name"] = $_POST["username"];
+            // Send user to homepage
+            header("Location: ?command=home");
+            return;
         } else {
             //check if passwords match
             if (password_verify($_POST["passwd"], $res[0]["password"])) {
                 // Password was correct
                 $_SESSION["username"] = $res[0]["username"];
                 $_SESSION["name"] = $res[0]["username"];
+                //update existing bio if user decided to write something else.
+                if (isset($_POST["bio"]) && !empty($_POST["bio"])) {
+                    $result = $this->db->query("UPDATE users SET bio = $1 WHERE username = $2", $_POST["bio"], $_SESSION['username']);
+                } 
                 header("Location: ?command=home");
                 return;
             } else {
                 // Account found but password was incorrect
                 $_SESSION['errorMessages'] = ["Account found but password was incorrect"];
             }
-
         }
     // If something went wrong, show the welcome page again
     $this->showLogin();
     }
 
 
-    public function signup(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["username"], $_POST["email"], $_POST["password"])) {
-            $username = $_POST["username"];
-            $email = $_POST["email"];
-            $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-            $role = ($_POST['role'] === "podcast host") ? 'p' : 'g';
-    
-            // Check if user already exists
-            $res = $this->db->query("SELECT 1 FROM users WHERE username = $1;", $username);
-            if (empty($res)) {  
-                $this->db->query("INSERT INTO users (name, username, email, password, type) VALUES ($1, $1, $2, $3, $4);",
-                    $username, 
-                    $email,
-                    $password, 
-                    $role
-                );
-
-                $_SESSION["username"] = $username;
-                $_SESSION["name"] = $username; // Assuming 'name' should also be set to 'username' at this point
-                header("Location: ?command=home");
-                exit();
-            }
-            else {
-                //check if passwords match
-                if (password_verify($_POST["password"], $res[0]["password"])) {
-                    // Password was correct
-                    $_SESSION["username"] = $res[0]["username"];
-                    $_SESSION["name"] = $res[0]["username"];
-                    header("Location: ?command=home");
-                    return;
-                } else {
-                    // Account found but password was incorrect. Tell the user that the username is already taken
-                    $_SESSION['errorMessage'] = ["This username is already taken, please pick a new one"];;
-                }
-        }
-    }
-            include 'templates/signup.php';
-            return;
-    }
-    
    //logout. Destroy and restart session
     public function logout() {
         session_destroy();
@@ -158,19 +149,7 @@ class Controller {
     public function showProfile() {
         if (isset($_POST["username"])) {
             $user = $this->findUser($_POST["username"]);
-        } else if (isset($_SESSION["username"])) {
-            $user = $this->findUser($_SESSION["username"]);
-        } else {
-            // Optionally handle the error state when no username is available
-            echo "No username provided for profile lookup.";
-            return;
-        }
-    
-        if ($user) {
             include('templates/profile.php');
-        } else {
-            // Handle case where user is not found
-            echo "User not found.";
         }
     }
 
@@ -199,6 +178,7 @@ class Controller {
         }
     }
 
+    // Define the findUser method here
     public function findUser($username) {
         try {
             // Prepare the SQL query to select a user by username
